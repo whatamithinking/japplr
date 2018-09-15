@@ -1,57 +1,113 @@
 
 
 <p align="left">
-<img src="https://github.com/ConnorSMaynes/monster/blob/master/monster/logo.png" alt="Monster.com Unofficial API" >
+<img src="https://github.com/ConnorSMaynes/japplr/blob/master/japplr/logo.png" alt="Japplr Auto Job Applier" >
 </p>
 
-A simple unofficial api for Monster.com job board.
+Automatically apply to jobs and filter out the garbage.
 
-Completely headless. Everything runs on python requests.
+## Attributes
 
+- `accounts` : Dictionary of each site name and an instance of that API
+    ```python
+    accounts = {
+      'ziprecruiter'  :   {
+        'email'     :   EMAIL
+        ,'password' :   PASSWORD
+        ,'enabled'  :   True
+      }
+      ,'monster'  :   {
+        'email'     :   EMAIL
+        ,'password' :   PASSWORD
+        ,'enabled'  :   True
+      }
+    }
+    ```
+- `global_filters` : Global filters to apply to all searches. These can be overridden by local filters in a search.
+  ```python
+  { 
+    'type'          : 'full_time'
+    ,'posteddaysago': 7
+    ,'salary'       : 100000
+  }  
+  ```
+- `searches` : List of dictionaries. Each dictionary contains a set of filters to apply to that specific search. Local filters override global filters
+  ```python
+  my_searches = [
+    { 'keywords' : 'python programmer' }
+    ,{ 'keywords' : 'sql programmer' }
+    ,{ 'keywords' : 'SCADA programmer' }
+  ]
+  ```
+  
 ## Methods
 
-- `login` : Login to Monster.com with your email and password.
-- `search` : search for jobs. returns a list of search results named tuples with ApplyLink ( quick apply job link ) and DetailsLink ( link to job desciption and other job details ). generator. The following filters are supported:
-  - keywords
-  - posted x days ago
-  - type ( full-time, internship, temporary )
-- `apply` : apply to the job at the given url ( ApplyLink ) returned from `search`
-- `batchApply` : apply to a bunch of jobs at once. progress bar.
-- `getJobDetails` : get details on a given job from the DetailsLink of the search result returned from `search`. This method will also accept a job id or the apply url and will lookup the job details.
+- `login` : Login to each of your enabled accounts.
+  - `accounts` : Dictionary of accounts. Use Enabled key to enable/disable different accounts, so they are used/ignored in `run`
+- `run` : Run `Japplr`, applying to jobs on all job boards
+  - `quantity_per_search` : Max number of jobs to apply to per schedule of run
+  - `schedule_every_mins` : How many minutes to wait before running through all searches all for all enabled accounts.
+  - `give_up_on_search_secs` : How many seconds to wait for a search to finish before giving up. Default is 0, which automatically calculates a number of seconds to wait before giving up. If -1, then will not give up until we run out of pages in the search results.
 
 ## Installation
 
 ```bash
-pip install git+git://github.com/ConnorSMaynes/monster
+pip install git+git://github.com/ConnorSMaynes/japplr
 ```
 
 ## Usage
 
+NOTES: 
+- Replace EMAIL and PASSWORD with your own.
+- You should setup filters in your email to filter out the "resume received" emails you get every time you apply to something, the "unfortunately" emails every time you get a rejection, and the "interview" emails for when you get an email.
+
 ```python
-from monster import Monster
+from japplr import Japplr
 
-# LOGIN
-m = Monster()
-if m.login( USERNAME, PASSWORD ):
+my_searches = [
+	{ 'keywords' : 'automation engineer' }
+	,{ 'keywords' : 'test automation engineer' }
+	,{ 'keywords' : 'electrical engineer' }
+	,{ 'keywords' : 'integration engineer' }
+	,{ 'keywords' : 'automation developer' }
+	,{ 'keywords' : 'python developer' }
+	,{ 'keywords' : 'inductive automation ignition' }
+	,{ 'keywords' : 'python programmer' }
+	,{ 'keywords' : 'database developer' }
+	,{ 'keywords' : 'sql programmer' }
+	,{ 'keywords' : 'dev ops' }
+	,{ 'keywords' : 'SCADA programmer' }
+	,{ 'keywords' : 'HMI programmer' }
+]
 
-      # BATCH APPLY TO JOBS
-      z.batchApply( m.search( quantity=5, keywords='developer' ) ) # apply to a bunch of jobs with progress bar.
+accounts = {
+	'ziprecruiter'  :   {
+		'email'     :   EMAIL
+		,'password' :   PASSWORD
+		,'enabled'  :   True
+	}
+	,'monster'  :   {
+		'email'     :   EMAIL
+		,'password' :   PASSWORD
+		,'enabled'  :   True
+	}
+}
 
-      # APPLY TO JOBS AND GET DETAILS
-      Jobs = z.search( quantity=5, keywords='developer' )
-      for Job in Jobs:                                            # apply to jobs and do some other stuff
-          JobDetails = z.getJobDetails( Job )                       
-          AppResult = z.apply( Job )
-          if AppResult:
-              print( JobDetails )
+j = Japplr(
+    accounts=accounts
+    ,searches=my_searches
+    ,global_filters={ 'type':'full_time','posteddaysago':7, 'salary':100000 }
+)
+j.login()
+j.run( quantity_per_search=10, schedule_every_mins=15 )
 ```
 
 ## Similar Projects
 
 This project was inspired by others:
-- [getJob](https://github.com/jonathanhwinter/getJob)
-- [ZipRecruiterHack](https://github.com/Original-heapsters/ZipRecruiterHack)
+- [ziprecruiter](https://github.com/ConnorSMaynes/ziprecruiter)
+- [monster](https://github.com/ConnorSMaynes/monster)
 
 ## License
 
-Copyright © 2018, [ConnorSMaynes](https://github.com/ConnorSMaynes). Released under the [MIT](https://github.com/ConnorSMaynes/ziprecruiter/blob/master/LICENSE).
+Copyright © 2018, [ConnorSMaynes](https://github.com/ConnorSMaynes). Released under the [MIT](https://github.com/ConnorSMaynes/japplr/blob/master/LICENSE.txt).
