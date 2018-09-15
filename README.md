@@ -4,7 +4,23 @@
 <img src="https://github.com/ConnorSMaynes/japplr/blob/master/japplr/logo.png" alt="Japplr Auto Job Applier">
 </p>
 
-Automatically apply to jobs and filter out the garbage.
+Automatically apply to jobs.
+
+## Pitch
+
+```
+Looking for a job?
+What if you could be 
+	Everywhere at once? 
+	In every job database on the planet? 
+	On every recruiter's desk?
+	In every company's HR department?
+Japplr makes being an omnipresent terrifying job applying daemon possible with a just few lines of code.
+Welcome to your future, 
+	Welcome...
+		To...
+			Japplr
+```
 
 ## Attributes
 
