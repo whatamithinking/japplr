@@ -1,0 +1,6 @@
+__pycache__
+.idea
+japplr.egg-info
+dist
+build
+debug.txt
