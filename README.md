@@ -1,7 +1,7 @@
 
 
-<p align="left">
-<img src="https://github.com/ConnorSMaynes/japplr/blob/master/japplr/logo.png" alt="Japplr Auto Job Applier" >
+<p align="center">
+<img src="https://github.com/ConnorSMaynes/japplr/blob/master/japplr/logo.png" alt="Japplr Auto Job Applier">
 </p>
 
 Automatically apply to jobs and filter out the garbage.
