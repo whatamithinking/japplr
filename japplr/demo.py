@@ -19,13 +19,13 @@ my_searches = [
 
 accounts = {
 	'ziprecruiter'  :   {
-		'email'     :   'connormaynes@gmail.com'
-		,'password' :   'scout555'
+		'email'     :   EMAIL
+		,'password' :   PASSWORD
 		,'enabled'  :   True
 	}
 	,'monster'  :   {
-		'email'     :   'connormaynes@gmail.com'
-		,'password' :   'xT156449qV'
+		'email'     :   EMAIL
+		,'password' :   PASSWORD
 		,'enabled'  :   True
 	}
 }
